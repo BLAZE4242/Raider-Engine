@@ -45,26 +45,11 @@ namespace Raider_Engine
 
         public static void Start()
         {
-            ////Square
-            //Renderer.DrawLine(new Vector2Int(20, 280), new Vector2Int(280, 280));
-            //Renderer.DrawLine(new Vector2Int(20, 280), new Vector2Int(20, 20));
-            //Renderer.DrawLine(new Vector2Int(20, 20), new Vector2Int(280, 20));
-            //Renderer.DrawLine(new Vector2Int(280, 20), new Vector2Int(280, 280));
-
-            //Renderer.DrawPixel(new Vector2Int(20, 280));
-            //Renderer.DrawPixel(new Vector2Int(280, 280));
-            //Renderer.DrawPixel(new Vector2Int(20, 20));
-            //Renderer.DrawPixel(new Vector2Int(280, 20));
-
-            Renderer.RenderWorld(cube);
         }
 
-
-        // temp
-        static int i = 0;
         public static void Update()
         {
-            i++;
+            Renderer.RenderWorld(cube);
         }
     }
 }

@@ -61,12 +61,18 @@ namespace Raider_Engine.Rendering
 
         public static void RenderWorld(World world)
         {
+            lineDrawQueue = new Dictionary<Point[], Pen>();
+            pixelDrawQueue = new Dictionary<Rectangle, Brush>();
+
             List<Vector2Int> verticesDrawn = new List<Vector2Int>();
 
             foreach (Vector3 vertex in world.vertices)
             {
-                float x = (Settings.focalLength * vertex.x) / (Settings.focalLength + vertex.z);
-                float y = (Settings.focalLength * vertex.y) / (Settings.focalLength + vertex.z);
+                Vector3 slightVertex = rotatedVertex(vertex + new Vector3(0, 0, 0));
+
+                float x = (Settings.focalLength * slightVertex.x) / (Settings.focalLength + slightVertex.z);
+                float y = (Settings.focalLength * slightVertex.y) / (Settings.focalLength + slightVertex.z);
+
                 Vector2Int newVertex = new Vector2Int(x, y);
 
                 DrawPixel(newVertex);
@@ -77,6 +83,17 @@ namespace Raider_Engine.Rendering
             {
                 DrawLine(new Vector2Int(verticesDrawn[edge.x-1].x, verticesDrawn[edge.x-1].y), new Vector2Int(verticesDrawn[edge.y-1].x, verticesDrawn[edge.y-1].y));
             }
+        }
+
+        static Vector3 rotatedVertex(Vector3 vertex)
+        {
+            //Console.WriteLine(Window.frameCount);
+            //return new Vector3(
+            //    vertex.x,
+            //    (float)Math.Cos(Window.frameCount / 10) * vertex.y - (float)Math.Sin(Window.frameCount / 10) * vertex.z,
+            //    (float)Math.Sin(Window.frameCount / 10) * vertex.y + (float)Math.Cos(Window.frameCount / 10) * vertex.z
+            //);
+            return vertex;
         }
     }
 }

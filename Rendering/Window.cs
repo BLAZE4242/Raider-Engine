@@ -13,6 +13,7 @@ namespace Raider_Engine.Rendering
     class Window : Form
     {
         public static Window _window;
+        public static int frameCount = 0;
 
         public Window(Vector2Int windowRes)
         {
@@ -32,6 +33,7 @@ namespace Raider_Engine.Rendering
 
         private void RefreshFrame(object sender, EventArgs e)
         {
+            frameCount++;
             Program.Update();
             Invalidate();
         }
