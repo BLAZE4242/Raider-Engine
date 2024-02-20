@@ -44,6 +44,12 @@ namespace Raider_Engine
             this.y = y;
         }
 
+        public Vector2Int(float x, float y)
+        {
+            this.x = (int)Math.Round(x, 0);
+            this.y = (int)Math.Round(y, 0);
+        }
+
         public static Vector2Int operator +(Vector2Int firstVector2, Vector2Int secondVector2)
         {
             return new Vector2Int(firstVector2.x + secondVector2.x, firstVector2.y + secondVector2.y);

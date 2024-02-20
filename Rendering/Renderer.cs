@@ -46,10 +46,37 @@ namespace Raider_Engine.Rendering
 
         public static void DrawPixel(Vector2Int pixelPos)
         {
+            Rectangle rect = new Rectangle(pixelPos.x, pixelPos.y, 4, 4);
+
+            if (pixelDrawQueue.ContainsKey(rect))
+            {
+                return;
+            }
+
             pixelDrawQueue.Add(
-                new Rectangle(pixelPos.x, pixelPos.y, 4, 4),
+                new Rectangle(pixelPos.x, pixelPos.y, 1, 1),
                 Brushes.Black
             );;
+        }
+
+        public static void RenderWorld(World world)
+        {
+            List<Vector2Int> verticesDrawn = new List<Vector2Int>();
+
+            foreach (Vector3 vertex in world.vertices)
+            {
+                float x = (Settings.focalLength * vertex.x) / (Settings.focalLength + vertex.z);
+                float y = (Settings.focalLength * vertex.y) / (Settings.focalLength + vertex.z);
+                Vector2Int newVertex = new Vector2Int(x, y);
+
+                DrawPixel(newVertex);
+                verticesDrawn.Add(newVertex);
+            }
+
+            foreach (Vector2Int edge in world.edgeConnections)
+            {
+                DrawLine(new Vector2Int(verticesDrawn[edge.x-1].x, verticesDrawn[edge.x-1].y), new Vector2Int(verticesDrawn[edge.y-1].x, verticesDrawn[edge.y-1].y));
+            }
         }
     }
 }

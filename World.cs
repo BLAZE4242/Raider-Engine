@@ -9,11 +9,12 @@ namespace Raider_Engine
     class World
     {
         public Vector3[] vertices;
-        // TODO add variable for keeping track of which verticies connect to which
+        public Vector2Int[] edgeConnections;
 
-        public World(Vector3[] vertices)
+        public World(Vector3[] vertices, Vector2Int[] edgesConnection)
         {
             this.vertices = vertices;
+            this.edgeConnections = edgesConnection;
         }
     }
 }
