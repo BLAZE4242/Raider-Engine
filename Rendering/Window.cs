@@ -21,16 +21,18 @@ namespace Raider_Engine.Rendering
 
             Paint += Renderer.RefreshFrame;
 
+            Program.Start();
+
             // Update
             Timer timer = new Timer();
-            timer.Interval = 100;
+            timer.Interval = 1000 / Settings.TargetFrameRate;
             timer.Tick += RefreshFrame;
             timer.Start();
         }
 
         private void RefreshFrame(object sender, EventArgs e)
         {
-            Renderer.Update();
+            Program.Update();
             Invalidate();
         }
 

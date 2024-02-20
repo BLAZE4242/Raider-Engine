@@ -11,8 +11,8 @@ namespace Raider_Engine.Rendering
 {
     class Renderer
     {
-        static float squareX = 0;
-        static Dictionary<Rectangle, Brush> renderQueue = new Dictionary<Rectangle, Brush>();
+        static Dictionary<Point[], Pen> lineDrawQueue = new Dictionary<Point[], Pen>();
+        static Dictionary<Rectangle, Brush> pixelDrawQueue = new Dictionary<Rectangle, Brush>();
 
         public static void Init(Vector2Int windowRes)
         {
@@ -21,35 +21,35 @@ namespace Raider_Engine.Rendering
 
         public static void RefreshFrame(object sender, PaintEventArgs e)
         {
-            foreach (KeyValuePair<Rectangle, Brush> render in renderQueue)
+            foreach (KeyValuePair<Point[], Pen> draw in lineDrawQueue)
             {
-                e.Graphics.FillRectangle(render.Value, render.Key);
+                e.Graphics.DrawLine(draw.Value, draw.Key[0], draw.Key[1]);
+            }
 
+            foreach (KeyValuePair<Rectangle, Brush> draw in pixelDrawQueue)
+            {
+                e.Graphics.FillRectangle(draw.Value, draw.Key);
             }
         }
 
-        public static void RenderPixel(Vector2Int pixelPos)
+        public static void DrawLine(Vector2Int pixelPos1, Vector2Int pixelPos2)
         {
-            renderQueue.Add(new Rectangle(pixelPos.x, pixelPos.y, 4, 4), Brushes.Black);
+            lineDrawQueue.Add(
+                new Point[]
+                {
+                    new Point(pixelPos1.x, pixelPos1.y),
+                    new Point(pixelPos2.x, pixelPos2.y)
+                },
+                Pens.Black
+            );
         }
 
-        // temp
-        static int i = 0;
-        public static void Update()
+        public static void DrawPixel(Vector2Int pixelPos)
         {
-            i++;
-
-            RenderPixel(new Vector2Int(i, 50));
-            //if (i % 2 == 0)
-            //{
-            //    renderQueue = new Dictionary<Rectangle, Brush>();
-            //    renderQueue.Add(new Rectangle(50, 50, 50, 50), Brushes.Black);
-            //}
-            //else
-            //{
-            //    renderQueue = new Dictionary<Rectangle, Brush>();
-            //    renderQueue.Add(new Rectangle(50, 50, 50, 50), Brushes.Green);
-            //}
+            pixelDrawQueue.Add(
+                new Rectangle(pixelPos.x, pixelPos.y, 4, 4),
+                Brushes.Black
+            );;
         }
     }
 }
